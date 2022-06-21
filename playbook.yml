@@ -1,0 +1,26 @@
+---
+  - name: uninstall and reinstall splunk new version
+    hosts: all
+  
+    tasks:
+      - name: ping to test server availability
+        win_ping:
+      - name: stop splunk forward service
+        win_service: stopped
+      - name: uninstall splunk forward application with command line
+        ansible.windows.win_command: product where name= “SplunkForwarder” call uninstall
+      - name: map network drive with splunk installation files
+        win_mapped_drive: s
+        path: "enter path of splunk network drive here"
+        #ENTER PATH
+      - name: run splunk installer with command line using network drive files
+        ansible.windows.win_command: msiexec /i “path\setup.msi"
+        #ENTER PATH
+      - name: Check if a service is installed
+        win_service:
+          name: “SplunkForwarder”
+        register: service_info
+        
+        
+
+      
