@@ -8,19 +8,16 @@
       - name: stop splunk forward service
         win_service: stopped
       - name: uninstall splunk forward application with command line
-        ansible.windows.win_command: product where name= “SplunkForwarder” call uninstall
+        win_command: product where name= “SplunkForwarder” call uninstall
       - name: map network drive with splunk installation files
-        win_mapped_drive: s
-        path: "enter path of splunk network drive here"
+        win_mapped_drive:
+        letter: S
+        path: 
         #ENTER PATH
       - name: run splunk installer with command line using network drive files
-        ansible.windows.win_command: msiexec /i “path\setup.msi"
+        win_command: msiexec /i \setup.msi
         #ENTER PATH
       - name: Check if a service is installed
         win_service:
           name: “SplunkForwarder”
-        register: service_info
-        
-        
-
-      
+        register: service_infoss
